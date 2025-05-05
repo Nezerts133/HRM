@@ -6,9 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('employees', function (Blueprint $table) {
@@ -25,12 +22,13 @@ return new class extends Migration
             $table->unsignedBigInteger('department_id')->nullable();
             $table->string('status')->default('active');
             $table->timestamps();
+
+            // Зовнішні ключі
+            $table->foreign('position_id')->references('id')->on('positions')->onDelete('set null');
+            $table->foreign('department_id')->references('id')->on('departments')->onDelete('set null');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('employees');
